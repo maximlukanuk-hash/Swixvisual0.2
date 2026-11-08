@@ -16,7 +16,7 @@ jobs:
           gradle-version: 8.10.2
       - name: Unpack and arrange files
         run: |
-          unzip -q swixclient.zip -d work
+          unzip -q "$(ls *.zip | head -n1)" -d work
           cd work/swixclient-flat
           J=src/main/java/com/swixclient
           R=src/main/resources
