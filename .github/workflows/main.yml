@@ -1,0 +1,26 @@
+name: build
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.10.2
+      - name: Unpack and arrange files
+        run: |
+          unzip -q swixclient.zip -d work
+          cd work/swixclient-flat
+          J=src/main/java/com/swixclient
+          R=src/main/resources
+          mkdir -p $J/module $J/gui $J/mixin $R/assets/swixclient/lang
+          for f in *.java; do
+            pkg=$(grep -m1 '^package ' "$f" | sed 's/package com.swixclient//; s/;//; s/^\.//')
+            mv
